@@ -138,7 +138,9 @@ void AAiTestSamplePlayerController::OnAttackTriggered()
 void AAiTestSamplePlayerController::OnOpenSkillUiTriggered()
 {
 	AHUD_MainGame* MainHUD = Cast<AHUD_MainGame>(GetHUD());
-	USkillWidgetClass*SkillWidget = Cast<USkillWidgetClass>(MainHUD->Find_Widget(EWidgetName::WD_SkillUI));
+	USkillWidgetClass*SkillWidget = Cast<USkillWidgetClass>(MainHUD->Find_Widget(EWidgetName::WD_SkillUI, EWidgetType::popUP));
+	if (nullptr == SkillWidget)
+		return;
 
 	if (SkillWidget->GetVisibility() != ESlateVisibility::Collapsed)
 	{
@@ -176,7 +178,7 @@ void AAiTestSamplePlayerController::OnSetEvansionTriggered()
 void AAiTestSamplePlayerController::OnOpenInventroyTriggered()
 {
 	AHUD_MainGame* MainHUD = Cast<AHUD_MainGame>(GetHUD());
-	UInventroyUIClass* InventroyWidget = Cast<UInventroyUIClass>(MainHUD->Find_Widget(EWidgetName::WD_Inventory));
+	UInventroyUIClass* InventroyWidget = Cast<UInventroyUIClass>(MainHUD->Find_Widget(EWidgetName::WD_Inventory, EWidgetType::popUP));
 
 	if (nullptr == InventroyWidget)
 		return;

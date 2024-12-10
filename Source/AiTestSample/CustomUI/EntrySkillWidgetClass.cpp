@@ -55,7 +55,7 @@ void UEntrySkillWidgetClass::NativeOnListItemObjectSet(UObject* ListItemObject)
 		TriPodInfo[i] = -1;
 
 	AHUD_MainGame* OwningHUD = Cast<AHUD_MainGame>(GetOwningPlayer()->GetHUD());
-	USkillWidgetClass* CurrentWidget = Cast<USkillWidgetClass>(OwningHUD->Find_Widget(EWidgetName::WD_SkillUI));
+	USkillWidgetClass* CurrentWidget = Cast<USkillWidgetClass>(OwningHUD->Find_Widget(EWidgetName::WD_SkillUI, EWidgetType::popUP));
 	if (CurrentWidget->clickedItem == nullptr)
 	{
 		CurrentWidget->ItemClicked(this);
@@ -87,7 +87,7 @@ FReply UEntrySkillWidgetClass::NativeOnMouseButtonDown(const FGeometry& InGeomet
 		InMouseEvent.IsMouseButtonDown(EKeys::RightMouseButton) == true)
 	{
 		AHUD_MainGame* OwningHUD = Cast<AHUD_MainGame>(GetOwningPlayer()->GetHUD());
-		USkillWidgetClass* CurrentWidget = Cast<USkillWidgetClass>(OwningHUD->Find_Widget(EWidgetName::WD_SkillUI));
+		USkillWidgetClass* CurrentWidget = Cast<USkillWidgetClass>(OwningHUD->Find_Widget(EWidgetName::WD_SkillUI, EWidgetType::popUP));
 		if (CurrentWidget->clickedItem == nullptr)
 		{
 			CurrentWidget->ItemClicked(this);
@@ -100,7 +100,7 @@ FReply UEntrySkillWidgetClass::NativeOnMouseButtonDown(const FGeometry& InGeomet
 void UEntrySkillWidgetClass::SkillLevelUPFUC()
 {
 	AHUD_MainGame* OwningHUD = Cast<AHUD_MainGame>(GetOwningPlayer()->GetHUD());
-	USkillWidgetClass* CurrentWidget = Cast<USkillWidgetClass>(OwningHUD->Find_Widget(EWidgetName::WD_SkillUI));
+	USkillWidgetClass* CurrentWidget = Cast<USkillWidgetClass>(OwningHUD->Find_Widget(EWidgetName::WD_SkillUI, EWidgetType::popUP));
 	
 	if (SkillLevel >= 12)
 		return;
@@ -118,7 +118,7 @@ void UEntrySkillWidgetClass::SkillLevelUPFUC()
 void UEntrySkillWidgetClass::SkillLevelDOWNFUC()
 {
 	AHUD_MainGame* OwningHUD = Cast<AHUD_MainGame>(GetOwningPlayer()->GetHUD());
-	USkillWidgetClass* CurrentWidget = Cast<USkillWidgetClass>(OwningHUD->Find_Widget(EWidgetName::WD_SkillUI));
+	USkillWidgetClass* CurrentWidget = Cast<USkillWidgetClass>(OwningHUD->Find_Widget(EWidgetName::WD_SkillUI, EWidgetType::popUP));
 	FSkillInfoData* Data = DataComponent->FindRow<FSkillInfoData>(FName(FString::FromInt(SkillLevel - 1)), "");
 
 	if (SkillLevel > 1)
@@ -135,7 +135,7 @@ void UEntrySkillWidgetClass::SkillLevelDOWNFUC()
 void UEntrySkillWidgetClass::UpdateTriPod()
 {
 	AHUD_MainGame* OwningHUD = Cast<AHUD_MainGame>(GetOwningPlayer()->GetHUD());
-	USkillWidgetClass* CurrentWidget = Cast<USkillWidgetClass>(OwningHUD->Find_Widget(EWidgetName::WD_SkillUI));
+	USkillWidgetClass* CurrentWidget = Cast<USkillWidgetClass>(OwningHUD->Find_Widget(EWidgetName::WD_SkillUI, EWidgetType::popUP));
 
 	int TriPodindex = SkillLevel * 0.3;
 	for (auto var : CurrentWidget->TriPodWidgetAry)
@@ -239,8 +239,10 @@ void UEntrySkillWidgetClass::ViewSkillInfo()
 {
 	AHUD_MainGame* OwningHUD = Cast<AHUD_MainGame>(GetOwningPlayer()->GetHUD());
 
-	OwningHUD->HUD_AddMainWidget(EWidgetName::WD_SkillWidgetInFoUI);
-	UUserWidget* InfoWidget = OwningHUD->Find_Widget(EWidgetName::WD_SkillWidgetInFoUI);
+	OwningHUD->HUD_AddMainWidget(EWidgetName::WD_SkillWidgetInFoUI, EWidgetType::popUP);
+	UUserWidget* InfoWidget = OwningHUD->Find_Widget(EWidgetName::WD_SkillWidgetInFoUI, EWidgetType::popUP);
+	if (nullptr == InfoWidget)
+		return;
 
 	SetWidgetData(InfoWidget);
 
@@ -258,13 +260,13 @@ void UEntrySkillWidgetClass::ViewSkillInfo()
 void UEntrySkillWidgetClass::HiddenSkillInfo()
 {
 	AHUD_MainGame* OwningHUD = Cast<AHUD_MainGame>(GetOwningPlayer()->GetHUD());
-	OwningHUD->HUD_RemoveWidget(EWidgetName::WD_SkillWidgetInFoUI);
+	OwningHUD->HUD_RemoveWidget(EWidgetName::WD_SkillWidgetInFoUI, EWidgetType::popUP);
 }
 
 void UEntrySkillWidgetClass::SelectWidget()
 {
 	AHUD_MainGame* OwningHUD = Cast<AHUD_MainGame>(GetOwningPlayer()->GetHUD());
-	UUserWidget* InfoWidget = OwningHUD->Find_Widget(EWidgetName::WD_SkillWidgetInFoUI);
+	UUserWidget* InfoWidget = OwningHUD->Find_Widget(EWidgetName::WD_SkillWidgetInFoUI, EWidgetType::popUP);
 	USkillWidgetClass* SkillUI = Cast<USkillWidgetClass>(InfoWidget);
 
 	SkillUI->ItemClicked(this);

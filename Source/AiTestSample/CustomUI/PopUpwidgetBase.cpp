@@ -24,7 +24,7 @@ void UPopUpwidgetBase::MoveWidget()
 		[this]()
 		{
 			AHUD_MainGame* OwningHUD = Cast<AHUD_MainGame>(GetOwningPlayer()->GetHUD());
-			UPlayerStateBarClass* MainWidget = Cast<UPlayerStateBarClass>(OwningHUD->Find_Widget(EWidgetName::WD_HPBar));
+			UPlayerStateBarClass* MainWidget = Cast<UPlayerStateBarClass>(OwningHUD->Find_Widget(EWidgetName::WD_HPBar, EWidgetType::mainWD));
 			MainWidget->MoveSkillUI(MousePos, Slot);
 		}
 	), 0.1f, true);
@@ -33,4 +33,9 @@ void UPopUpwidgetBase::MoveWidget()
 void UPopUpwidgetBase::StopMoveWidget()
 {
 	GetWorld()->GetTimerManager().ClearTimer(timerHandle);
+}
+
+void UPopUpwidgetBase::UpdatePopUpWidgetOrder()
+{
+
 }

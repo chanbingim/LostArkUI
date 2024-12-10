@@ -90,7 +90,7 @@ void AAiTestSampleCharacter::BeginPlay()
 	AAiTestSamplePlayerController* CurrentController = Cast<AAiTestSamplePlayerController>(GetController());
 
 	AHUD_MainGame* CurrentHUD = Cast<AHUD_MainGame>(CurrentController->GetHUD());
-	UPlayerStateBarClass* Widget = Cast<UPlayerStateBarClass>(CurrentHUD->Find_Widget(EWidgetName::WD_HPBar));
+	UPlayerStateBarClass* Widget = Cast<UPlayerStateBarClass>(CurrentHUD->Find_Widget(EWidgetName::WD_HPBar, EWidgetType::mainWD));
 
 	if (nullptr != Widget)
 	{
@@ -114,7 +114,7 @@ void AAiTestSampleCharacter::GetDamage(float Damage)
 		AAiTestSamplePlayerController* CurrentController = Cast<AAiTestSamplePlayerController>(GetController());
 		AHUD_MainGame* CurrentHUD = Cast<AHUD_MainGame>(CurrentController->GetHUD());
 
-		UPlayerStateBarClass* CurrentWidget = Cast<UPlayerStateBarClass>(CurrentHUD->Find_Widget(EWidgetName::WD_HPBar));
+		UPlayerStateBarClass* CurrentWidget = Cast<UPlayerStateBarClass>(CurrentHUD->Find_Widget(EWidgetName::WD_HPBar, EWidgetType::mainWD));
 		UWidget_HPbar* CurrentHP = Cast<UWidget_HPbar>(CurrentWidget->GetHPBar());
 
 		if (nullptr != CurrentHP)

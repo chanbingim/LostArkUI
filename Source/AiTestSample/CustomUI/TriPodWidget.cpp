@@ -25,7 +25,7 @@ void UTriPodWidget::NativeConstruct()
 	Super::NativeConstruct();
 
 	AHUD_MainGame* OwningHUD = Cast<AHUD_MainGame>(GetOwningPlayer()->GetHUD());
-	USkillWidgetClass* CurrentWidget = Cast<USkillWidgetClass>(OwningHUD->Find_Widget(EWidgetName::WD_SkillUI));
+	USkillWidgetClass* CurrentWidget = Cast<USkillWidgetClass>(OwningHUD->Find_Widget(EWidgetName::WD_SkillUI, EWidgetType::popUP));
 
 	if(CurrentWidget != nullptr)
 		CurrentWidget->TriPodWidgetAry.Add(this);
@@ -34,7 +34,7 @@ void UTriPodWidget::NativeConstruct()
 void UTriPodWidget::TriPodSelect()
 {
 	AHUD_MainGame* OwningHUD = Cast<AHUD_MainGame>(GetOwningPlayer()->GetHUD());
-	USkillWidgetClass* CurrentWidget = Cast<USkillWidgetClass>(OwningHUD->Find_Widget(EWidgetName::WD_SkillUI));
+	USkillWidgetClass* CurrentWidget = Cast<USkillWidgetClass>(OwningHUD->Find_Widget(EWidgetName::WD_SkillUI, EWidgetType::popUP));
 	UEntrySkillWidgetClass* BasetWidget = CurrentWidget->clickedItem;
 	
 	

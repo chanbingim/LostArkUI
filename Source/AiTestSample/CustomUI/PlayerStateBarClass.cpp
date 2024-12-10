@@ -20,7 +20,7 @@ void UPlayerStateBarClass::NativeOnInitialized()
 void UPlayerStateBarClass::NativeConstruct()
 {
 	Super::NativeConstruct();
-
+	
 }
 
 UUserWidget* UPlayerStateBarClass::GetHPBar()
@@ -52,7 +52,7 @@ USkillWidgetClass* UPlayerStateBarClass::GetSkillWidget()
 void UPlayerStateBarClass::CanvasAddToWidget(UUserWidget* newWidget)
 {
 	AHUD_MainGame* MainHUD = Cast<AHUD_MainGame>(GetOwningPlayer()->GetHUD());
-
+	int order = MainHUD->popUpWidgetAry.Num() + 10;
 	if (nullptr != newWidget)
 	{
 		MainCanvas->AddChildToCanvas(newWidget);
@@ -62,7 +62,12 @@ void UPlayerStateBarClass::CanvasAddToWidget(UUserWidget* newWidget)
 		CanvasSlot->SetAnchors(FAnchors(0.5f,0.5f,0.5f,0.5f));
 		CanvasSlot->SetPosition(FVector2D(0,0));
 		CanvasSlot->SetAlignment(FVector2D(0.5f, 0.5f));
-		MainHUD->MainWidgetAry.Add(newWidget);
+		CanvasSlot->SetZOrder(order);
+
+		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Black,
+			FString::Printf (TEXT("oreder : %d"), CanvasSlot->GetZOrder()));
+
+		MainHUD->popUpWidgetAry.Add(newWidget);
 	}
 }
 

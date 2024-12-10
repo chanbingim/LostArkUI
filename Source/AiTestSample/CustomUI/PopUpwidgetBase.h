@@ -23,4 +23,8 @@ protected :
 
 	UFUNCTION()
 	void StopMoveWidget();
+
+public :
+	UFUNCTION()
+	void UpdatePopUpWidgetOrder();
 };

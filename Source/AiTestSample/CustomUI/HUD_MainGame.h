@@ -7,6 +7,14 @@
 #include "HUD_MainGame.generated.h"
 
 UENUM(BlueprintType)
+enum class EWidgetType : uint8
+{
+	Default,
+	popUP,
+	mainWD,
+};
+
+UENUM(BlueprintType)
 enum class EWidgetName : uint8
 {
 	WD_HPBar,
@@ -46,17 +54,23 @@ public :
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Widget")
 	TArray<UUserWidget*> MainWidgetAry;
 
-	UFUNCTION()
-	void HUD_AddMainWidget(EWidgetName Name);
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Widget")
+	TArray<UUserWidget*> popUpWidgetAry;
 
 	UFUNCTION()
-	UUserWidget* Find_Widget(EWidgetName  Name);
+	void HUD_AddMainWidget(EWidgetName Name, const EWidgetType& findType);
+
+	UFUNCTION()
+	UUserWidget* Find_Widget(EWidgetName  Name, const EWidgetType& findType);
+
+	UFUNCTION(BlueprintCallable)
+	void UpdatePopUpWidgetZOrder(UUserWidget* clickwidget);
 
 	UFUNCTION()
 	TSubclassOf<class UUserWidget> GetWidgetClass(const EWidgetName Name);
 
 	UFUNCTION()
-	void HUD_RemoveWidget(EWidgetName Name);
+	void HUD_RemoveWidget(EWidgetName Name, const EWidgetType& findType);
 
 	UFUNCTION(BlueprintCallable)
 	TSubclassOf<class UUserWidget> GetWD_HPBarClass() { return WD_HPBarClass; }

@@ -38,7 +38,7 @@ FReply USlotBaseClass::NativeOnMouseButtonDown(const FGeometry& InGeometry, cons
 			AHUD_MainGame* OwningHUD = Cast<AHUD_MainGame>(GetOwningPlayer()->GetHUD());
 			if (Type == FSlotType::UIType)
 			{
-				USkillWidgetClass* CurrentWidget = Cast<USkillWidgetClass>(OwningHUD->Find_Widget(EWidgetName::WD_SkillUI));
+				USkillWidgetClass* CurrentWidget = Cast<USkillWidgetClass>(OwningHUD->Find_Widget(EWidgetName::WD_SkillUI, EWidgetType::popUP));
 				if (CurrentWidget != nullptr)
 					CurrentWidget->ItemClicked(ParentWidget);
 			}
@@ -109,7 +109,7 @@ bool USlotBaseClass::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEv
 		if (fromSlot->Type == FSlotType::ItemSlotType && this->Type == FSlotType::ItemSlotType)
 		{
 			AHUD_MainGame* OwningHUD = Cast<AHUD_MainGame>(GetOwningPlayer()->GetHUD());
-			UInventroyUIClass* CurrentWidget = Cast<UInventroyUIClass>(OwningHUD->Find_Widget(EWidgetName::WD_Inventory));	
+			UInventroyUIClass* CurrentWidget = Cast<UInventroyUIClass>(OwningHUD->Find_Widget(EWidgetName::WD_Inventory, EWidgetType::popUP));
 			CurrentWidget->UIRefesh(fromSlot, this);
 		}
 		

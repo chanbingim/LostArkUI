@@ -101,7 +101,7 @@ void USkillWidgetClass::RemoveSkillWidget()
 
 	if (nullptr != OwningHUD)
 	{
-		OwningHUD->Find_Widget(EWidgetName::WD_SkillUI)->SetVisibility(ESlateVisibility::Collapsed);
+		OwningHUD->Find_Widget(EWidgetName::WD_SkillUI, EWidgetType::popUP)->SetVisibility(ESlateVisibility::Collapsed);
 		RollBackList.Empty();
 	}
 }
