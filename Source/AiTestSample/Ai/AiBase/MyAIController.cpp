@@ -82,15 +82,20 @@ void AMyAIController::DeadAI()
 void AMyAIController::HiDamageOnAI(float Damage)
 {
 	AAiCharacter* OwnningPawn = Cast<AAiCharacter>(GetPawn());
-	UAi_AnimInstanceBase* Anim = OwnningPawn->GetAnimBase();
-
-	if (OwnningPawn->Enemy_HP - Damage > 0)
+	if (OwnningPawn)
 	{
-		OwnningPawn->Enemy_HP -= Damage;
-		Anim->Play_AnimMontage("HitMotionMontage");
+		UAi_AnimInstanceBase* Anim = OwnningPawn->GetAnimBase();
+		if (nullptr == Anim)
+			return;
+
+		if (OwnningPawn->Enemy_HP - Damage > 0)
+		{
+			OwnningPawn->Enemy_HP -= Damage;
+			Anim->Play_AnimMontage("HitMotionMontage");
+		}
+		else if (OwnningPawn->Enemy_HP - Damage <= 0)
+			DeadAI();
 	}
-	else if (OwnningPawn->Enemy_HP - Damage <= 0)
-		DeadAI();
 }
 
 void AMyAIController::RunAI()

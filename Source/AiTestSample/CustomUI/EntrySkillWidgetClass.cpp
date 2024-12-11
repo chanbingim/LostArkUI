@@ -239,8 +239,8 @@ void UEntrySkillWidgetClass::ViewSkillInfo()
 {
 	AHUD_MainGame* OwningHUD = Cast<AHUD_MainGame>(GetOwningPlayer()->GetHUD());
 
-	OwningHUD->HUD_AddMainWidget(EWidgetName::WD_SkillWidgetInFoUI, EWidgetType::popUP);
-	UUserWidget* InfoWidget = OwningHUD->Find_Widget(EWidgetName::WD_SkillWidgetInFoUI, EWidgetType::popUP);
+	OwningHUD->HUD_AddMainWidget(EWidgetName::WD_SkillWidgetInFoUI, EWidgetType::mainWD);
+	UUserWidget* InfoWidget = OwningHUD->Find_Widget(EWidgetName::WD_SkillWidgetInFoUI, EWidgetType::mainWD);
 	if (nullptr == InfoWidget)
 		return;
 
@@ -260,13 +260,13 @@ void UEntrySkillWidgetClass::ViewSkillInfo()
 void UEntrySkillWidgetClass::HiddenSkillInfo()
 {
 	AHUD_MainGame* OwningHUD = Cast<AHUD_MainGame>(GetOwningPlayer()->GetHUD());
-	OwningHUD->HUD_RemoveWidget(EWidgetName::WD_SkillWidgetInFoUI, EWidgetType::popUP);
+	OwningHUD->HUD_RemoveWidget(EWidgetName::WD_SkillWidgetInFoUI, EWidgetType::mainWD);
 }
 
 void UEntrySkillWidgetClass::SelectWidget()
 {
 	AHUD_MainGame* OwningHUD = Cast<AHUD_MainGame>(GetOwningPlayer()->GetHUD());
-	UUserWidget* InfoWidget = OwningHUD->Find_Widget(EWidgetName::WD_SkillWidgetInFoUI, EWidgetType::popUP);
+	UUserWidget* InfoWidget = OwningHUD->Find_Widget(EWidgetName::WD_SkillWidgetInFoUI, EWidgetType::mainWD);
 	USkillWidgetClass* SkillUI = Cast<USkillWidgetClass>(InfoWidget);
 
 	SkillUI->ItemClicked(this);

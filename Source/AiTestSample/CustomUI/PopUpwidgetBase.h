@@ -18,13 +18,17 @@ class AITESTSAMPLE_API UPopUpwidgetBase : public UUserWidget
 	FTimerHandle timerHandle;
 
 protected :
+	virtual FReply NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent);
+	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent);
+	virtual FReply NativeOnMouseButtonDoubleClick(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent);
+
 	UFUNCTION()
 	void MoveWidget();
 
 	UFUNCTION()
 	void StopMoveWidget();
 
-public :
 	UFUNCTION()
-	void UpdatePopUpWidgetOrder();
+	void UpdatePopupZOrder();
+
 };

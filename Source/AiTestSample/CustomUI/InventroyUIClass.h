@@ -6,6 +6,7 @@
 #include "PopUpwidgetBase.h"
 #include "InventroyUIClass.generated.h"
 
+
 class UButton;
 class UTileView;
 
@@ -41,6 +42,10 @@ public :
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FInvenToryWidgetOption InvenOption;
+	
+public : 
+	UFUNCTION()
+	void HandleTileViewItemClicked(UObject* ClickedItem);
 
 	UFUNCTION()
 	void CloseWidget();

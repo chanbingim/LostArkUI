@@ -35,7 +35,6 @@ void UInventorySlot::NativeOnListItemObjectSet(UObject* ListItemObject)
 
 void UInventorySlot::SetItemData()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Blue, TEXT("SetData"));
 	if (SkillImage == nullptr)
 		return;
 

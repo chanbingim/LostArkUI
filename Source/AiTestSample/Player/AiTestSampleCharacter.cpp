@@ -202,6 +202,7 @@ void AAiTestSampleCharacter::OnMontageAttackCheck()
 	if (hitDetected)
 	{
 		 AMyAIController* TargetController = Cast<AMyAIController>(OutHitResult.GetActor()->GetInstigatorController());
-		 TargetController->HiDamageOnAI(10.0f);
+		 if(TargetController)
+			TargetController->HiDamageOnAI(10.0f);
 	}
 }

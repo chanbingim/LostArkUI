@@ -15,6 +15,7 @@ void UInventroyUIClass::NativeOnInitialized()
 	InvenOption.ExitButton->OnClicked.AddDynamic(this, &UInventroyUIClass::CloseWidget);
 	InvenOption.MoveWidgetButton->OnPressed.AddDynamic(this, &ThisClass::MoveWidget);
 	InvenOption.MoveWidgetButton->OnReleased.AddDynamic(this, &ThisClass::StopMoveWidget);
+	InvenOption.tileView->OnItemClicked().AddUObject(this, &ThisClass::HandleTileViewItemClicked);
 }
 
 void UInventroyUIClass::NativeConstruct()
@@ -31,6 +32,11 @@ void UInventroyUIClass::NativeConstruct()
 		InvenOption.tileView->AddItem(InvenSlot);
 	}
 	SetVisibility(ESlateVisibility::Collapsed);
+}
+
+void UInventroyUIClass::HandleTileViewItemClicked(UObject* ClickedItem)
+{
+	UpdatePopupZOrder();
 }
 
 void UInventroyUIClass::CloseWidget()
