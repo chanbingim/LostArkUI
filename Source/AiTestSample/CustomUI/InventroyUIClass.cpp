@@ -7,15 +7,18 @@
 #include "InventorySlot.h"
 #include "Components/Button.h"
 #include "Components/TileView.h"
+#include "ItemDropWidget.h"
 
 void UInventroyUIClass::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
 	InvenOption.ExitButton->OnClicked.AddDynamic(this, &UInventroyUIClass::CloseWidget);
+
 	InvenOption.MoveWidgetButton->OnPressed.AddDynamic(this, &ThisClass::MoveWidget);
 	InvenOption.MoveWidgetButton->OnReleased.AddDynamic(this, &ThisClass::StopMoveWidget);
 	InvenOption.tileView->OnItemClicked().AddUObject(this, &ThisClass::HandleTileViewItemClicked);
+	InvenOption.dropItemDWidget->okayButton->OnClicked.AddUniqueDynamic(this, &ThisClass::breakItemEvent);
 }
 
 void UInventroyUIClass::NativeConstruct()
@@ -81,4 +84,20 @@ void UInventroyUIClass::UIRefesh(UObject* FromWidget,UObject* ToWidget)
 
 	fSlot->SetItemData();
 	toSlot->SetItemData();
+}
+
+void UInventroyUIClass::dropItemWidgetShowEvent(UObject* selectSlot)
+{
+	selectSlotItem = selectSlot;
+	InvenOption.dropItemDWidget->ItemDropWidgetOnActive();
+}
+
+void UInventroyUIClass::breakItemEvent()
+{
+	UInventorySlot* slotInfo = Cast<UInventorySlot>(selectSlotItem);
+
+	if (slotInfo)
+	{
+		slotInfo->RemoveItemData();
+	}
 }

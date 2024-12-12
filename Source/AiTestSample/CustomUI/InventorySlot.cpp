@@ -18,7 +18,6 @@ void UInventorySlot::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	
 }
 
 void UInventorySlot::NativeOnListItemObjectSet(UObject* ListItemObject)
@@ -48,4 +47,14 @@ void UInventorySlot::SetItemData()
 		ItemCount->SetText(FText::FromString(CountText));
 		ItemCount->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
 	}
+}
+
+void UInventorySlot::RemoveItemData()
+{
+	SkillImgaeTexture = nullptr;
+	Count = 0;
+
+	SetWidgetImage(SkillImgaeTexture);
+	ItemCount->SetText(FText::FromString(""));
+	ItemCount->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
 }

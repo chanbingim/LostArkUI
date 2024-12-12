@@ -9,6 +9,7 @@
 
 class UButton;
 class UTileView;
+class UItemDropWidget;
 
 USTRUCT(BlueprintType)
 struct FInvenToryWidgetOption
@@ -24,6 +25,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UTileView* tileView;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UItemDropWidget* dropItemDWidget;
 };
 /**
  * 
@@ -32,6 +36,10 @@ UCLASS()
 class AITESTSAMPLE_API UInventroyUIClass : public UPopUpwidgetBase
 {
 	GENERATED_BODY()
+
+private :
+	UObject* selectSlotItem = nullptr;
+
 protected:
 	virtual void NativeOnInitialized() override;
 	virtual void NativeConstruct() override;
@@ -55,4 +63,11 @@ public :
 
 	UFUNCTION()
 	void UIRefesh(UObject* FromWidget, UObject* ToWidget);
+
+	UFUNCTION()
+	void dropItemWidgetShowEvent(UObject* selectSlot);
+
+	UFUNCTION()
+	void breakItemEvent();
+
 };

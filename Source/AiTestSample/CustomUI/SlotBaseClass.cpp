@@ -56,9 +56,14 @@ void USlotBaseClass::NativeOnDragCancelled(const FDragDropEvent& InDragDropEvent
 
 	USkillWidgetDragAndDrop* slot = Cast<USkillWidgetDragAndDrop>(InOperation);
 	USlotBaseClass* selectSlot = Cast<USlotBaseClass>(slot->selectWidget);
+	AHUD_MainGame* OwningHUD = Cast<AHUD_MainGame>(GetOwningPlayer()->GetHUD());
 
 	if (selectSlot->Type == FSlotType::ItemSlotType)
 	{
+		auto inventory = Cast<UInventroyUIClass>(
+			OwningHUD->Find_Widget(EWidgetName::WD_Inventory, EWidgetType::popUP));
+		inventory->dropItemWidgetShowEvent(selectSlot);
+
 		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Blue, TEXT("DragCancel"));
 	}
 		

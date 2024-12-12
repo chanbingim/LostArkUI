@@ -14,11 +14,12 @@ UCLASS()
 class AITESTSAMPLE_API UInventorySlot : public USlotBaseClass, public IUserObjectListEntry
 {
 	GENERATED_BODY()
+
 protected : 
 	virtual void NativeOnInitialized();
 	virtual void NativeConstruct();
 	virtual void NativeOnListItemObjectSet(UObject* ListItemObject) override;
-
+	
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
 	class UTextBlock* ItemCount = nullptr;
 
@@ -35,4 +36,6 @@ public :
 	UFUNCTION()
 	void SetItemData();
 
+	UFUNCTION()
+	void RemoveItemData();
 };

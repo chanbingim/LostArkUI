@@ -6,6 +6,8 @@
 #include "Blueprint/UserWidget.h"
 #include "SlotBaseClass.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDeleDropCancel);
+
 UENUM(BlueprintType)
 enum class FSlotType : uint8
 {
@@ -96,4 +98,5 @@ public:
 	UFUNCTION()
 	inline UUserWidget* GetParentWidget() { return ParentWidget; }
 
+	FDeleDropCancel onDropCancelEvent;
 };
