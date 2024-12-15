@@ -11,6 +11,6 @@ public class AiTestSample : ModuleRules
         PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "NavigationSystem", "AIModule", "Niagara", "EnhancedInput"
 		,"GameplayTasks", "UMG", "Slate", "SlateCore", "Paper2D"});
 
-		PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
+		PrivateDependencyModuleNames.AddRange(new string[] { "HTTP", "JsonUtilities", "Json", "Slate", "SlateCore" });
     }
 }
