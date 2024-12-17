@@ -1,36 +1,14 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+﻿// Copyright Epic Games, Inc. All Rights Reserved.
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "OpenAPIHandler.h"
+#include "CustomStructClass.h"
 #include "AiTestSampleGameMode.generated.h"
 
-USTRUCT(BlueprintType)
-struct FCharacterInfo
-{
-	GENERATED_USTRUCT_BODY()
 
-public :
-	UPROPERTY(VisibleAnywhere)
-	FString ServerName;
-
-	UPROPERTY(VisibleAnywhere)
-	FString CharacterName;
-
-	UPROPERTY(VisibleAnywhere)
-	int32 CharacterLevel;
-
-	UPROPERTY(VisibleAnywhere)
-	FString CharacterClassName;
-
-	UPROPERTY(VisibleAnywhere)
-	FString ItemAvgLevel;
-
-	UPROPERTY(VisibleAnywhere)
-	FString ItemMaxLevel;
-};
 
 UCLASS(minimalapi)
 class AAiTestSampleGameMode : public AGameModeBase
@@ -49,5 +27,20 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	TArray<FCharacterInfo> characterinfoList;
 
-	void ResponseReceivedData(FHttpResponsePtr responPtr);
+	UPROPERTY(VisibleAnywhere)
+	FArmoryProfile playerProFile;
+
+	UPROPERTY(VisibleAnywhere)
+	TArray<FArmoryEquipment> playerArmoryEquipment;
+
+	UPROPERTY(VisibleAnywhere)
+	TArray<FArmoryAvatar> playerAvatar;
+
+	void ResponseReceivedData(FHttpResponsePtr responPtr, EStructType currentType);
+
+	//Characterinfo 데이터 파싱 함수
+	void ParseCharacterInfoData(const FString& JsonString);
+
+	//CharaterArmories 데이터 파싱 함수
+	void ParseCharaterArmories(const FString& JsonString);
 };

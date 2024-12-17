@@ -36,11 +36,21 @@ FString OpenAPIHandler::urlEncode(const FString& str)
 
 void OpenAPIHandler::RequestCharacterInfo(FString charactername)
 {
-	FString resultURL = defaultDomainURL + urlEncode(charactername) + "/siblings";
-	HttpCall(resultURL, "Get");
+	FString resultURL = SerachCharacterDomainURL + urlEncode(charactername) + "/siblings";
+	HttpCall(resultURL, "Get", EStructType::charaterInfo);
 }
 
-void OpenAPIHandler::HttpCall(const FString& InURL, const FString& InVerb)
+void OpenAPIHandler::RequestCharacterArmories(FString charactername, FString filters)
+{
+	FString resultURL = SerachArmoriesDomainURL + urlEncode(charactername);
+
+	if(!filters.IsEmpty())
+		resultURL = resultURL + "?" + urlEncode(filters);
+
+	HttpCall(resultURL, "Get", EStructType::charaterArmories);
+}
+
+void OpenAPIHandler::HttpCall(const FString& InURL, const FString& InVerb, EStructType requestDataType)
 {
 	TSharedPtr<IHttpRequest> Request = httpModule->CreateRequest();
 	Request->OnProcessRequestComplete().BindRaw(this, &OpenAPIHandler::OnResponseReceived);
@@ -71,6 +81,12 @@ void OpenAPIHandler::HttpCall(const FString& InURL, const FString& InVerb)
 
 	//응답하는 내용의 타입과 문자 포맷을 표현한다.
 	Request->SetHeader("Content-Type", TEXT("application/Json"));
+
+	// 요청 타입을 매개변수로 전달
+	FString RequestTypeStr = FString::Printf(TEXT("%d"), static_cast<int32>(requestDataType));
+	Request->SetHeader(TEXT("Request-Type"), RequestTypeStr);
+	UE_LOG(LogTemp, Warning, TEXT("Response Code: %s"), *RequestTypeStr);
+
 #pragma region Post Example
 	//Post즉 서버에 데이터를 올릴때 사용하는 구조
 	//TSharedRef<FJsonObject> RequestObj = MakeShared<FJsonObject>();
@@ -104,8 +120,11 @@ void OpenAPIHandler::OnResponseReceived(FHttpRequestPtr Request, FHttpResponsePt
 	// Code가 200일 때만 정상작동
 	// Code 확인 URL: https://developer-lostark.game.onstove.com/usage-guide#API-CHARACTERS
 	int32 ResponseCode = Response->GetResponseCode();
+	FString RequestTypeStr = Request->GetHeader(TEXT("Request-Type"));
+	EStructType RequestType = static_cast<EStructType>(FCString::Atoi(*RequestTypeStr));
+
 	UE_LOG(LogTemp, Warning, TEXT("Response Code: %d"), ResponseCode);
-	ReceivedDataFuncDele.Broadcast(Response);
+	UE_LOG(LogTemp, Warning, TEXT("Response Code: %s"), *RequestTypeStr);
+
+	ReceivedDataFuncDele.Broadcast(Response, RequestType);
 }
-
-
