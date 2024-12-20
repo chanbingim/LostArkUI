@@ -13,5 +13,7 @@ Paragon_Serath : https://www.fab.com/ko/listings/522b6160-15ab-492b-a2b0-c09f9bb
 
 Pargon_Kwang : https://www.fab.com/ko/listings/f4c67e92-b976-4b5b-ab9f-4c25b010f6f3
 
+Use LostArk Open Api
+
 # Image
 ![image](https://github.com/user-attachments/assets/fdf4d901-dc37-4957-bfcb-081ba57ac6ee)
