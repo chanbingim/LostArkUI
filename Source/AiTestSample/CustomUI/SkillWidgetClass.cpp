@@ -7,6 +7,7 @@
 #include "Kismet/KismetStringLibrary.h"
 #include "PlayerSkillDataClass.h"
 #include "Components/Button.h"
+#include "AiTestSample/PlayerDataSubSystem.h"
 #include "Components/ListView.h"
 #include "Components/SizeBox.h"
 #include "PlayerStateBarClass.h"
@@ -35,53 +36,38 @@ void USkillWidgetClass::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	USaveGame* SaveWidgetData = UGameplayStatics::LoadGameFromSlot("SaveSlotName", 0);
-	if (nullptr != SaveWidgetData)
+	auto playerData = GetGameInstance()->GetSubsystem<UPlayerDataSubSystem>();
+	int32 SkillIndex = playerData->playerSkills.Num();
+
+	if (SkillIndex == 0)
+		GEngine->AddOnScreenDebugMessage(-3, 3.0f, FColor::Red, TEXT("Not Find Data"));
+
+	for (int i = 0; i < SkillIndex; i++)
 	{
-		UTestUISaveData* Data = Cast<UTestUISaveData>(SaveWidgetData);
-		USkillWidgetClass* SaveWidget = Cast<USkillWidgetClass>(Data->SaveWidget);
-		TArray<UObject *> AllData = SaveWidget->ControllOption.SkillList->GetListItems();
+		FArmorySkills skilldata = playerData->playerSkills[i];
 
-		Current_SkillPoint = SaveWidget->Current_SkillPoint;
-		
-		//json file reader
-		for (auto i : AllData)
-		{
-			UEntrySkillWidgetClass* OldData = Cast<UEntrySkillWidgetClass>(i);
-			UEntrySkillWidgetClass* Temp = NewObject<UEntrySkillWidgetClass>(this, UEntrySkillWidgetClass::StaticClass());
+		//FSkillData* SkillData = SkillDataTableComponent->FindRow<FSkillData>(FName(FString::FromInt(i + 1)), "");
+		UEntrySkillWidgetClass* Temp = NewObject<UEntrySkillWidgetClass>(this, UEntrySkillWidgetClass::StaticClass());
+		Temp->SetSkillName(skilldata.Name);
+		Temp->SetSkillSock(skilldata.Type);
+		Temp->SetSkillLevel(skilldata.Level);
+		Temp->SetSkillImageURL(skilldata.Icon);
+		Temp->SetSkillImage(playerData->skillImage[i]);
 
-			Temp->SetSkillImage(OldData->GetSkillImage());
-			Temp->SetSkillName(OldData->GetSkillName());
-			Temp->SetSkillSock(OldData->GetSkillSock());
-			Temp->SetSkillData(OldData->GetSkillData());
-			AddSkillList(Temp);
-		}
-	}
-	else
-	{
-		for (int i = 0; i < 8; i++)
-		{
-			FSkillData* SkillData = SkillDataTableComponent->FindRow<FSkillData>(FName(FString::FromInt(i + 1)), "");
-			UEntrySkillWidgetClass* Temp = NewObject<UEntrySkillWidgetClass>(this, UEntrySkillWidgetClass::StaticClass());
+		/*Temp->SetSkillImage(SkillData->SkillImage);
+		Temp->SetSkillName(SkillData->SkillName);
+		Temp->SetSkillSock(SkillData->SkillSock);
+		Temp->SetSkillData(SkillData->SkillDataInfo);
+		Temp->SetTriPodData(SkillData->TriPodData);
+		Temp->SetSKillCaption(SkillData->SkillCaption);*/
 
-			Temp->SetSkillImage(SkillData->SkillImage);
-			Temp->SetSkillName(SkillData->SkillName);
-			Temp->SetSkillSock(SkillData->SkillSock);
-			Temp->SetSkillData(SkillData->SkillDataInfo);
-			Temp->SetTriPodData(SkillData->TriPodData);
-			Temp->SetSKillCaption(SkillData->SkillCaption);
-
-			AddSkillList(Temp);
-		}
+		AddSkillList(Temp);
 	}
 	
 	SetSkillPointText();
 	SetSkillTriPodText();
 	SetVisibility(ESlateVisibility::Collapsed);
 }
-
-
-
 
 void USkillWidgetClass::SaveSkillWidgetData()
 {

@@ -32,6 +32,9 @@ private :
 	FString SkillSock = "";
 
 	UPROPERTY(VisibleAnywhere, Category = "info")
+	FString SkillImageURL;
+
+	UPROPERTY(VisibleAnywhere, Category = "info")
 	UTexture2D* SkillImage = nullptr;
 
 	UPROPERTY(VisibleAnywhere, Category = "info")
@@ -113,10 +116,13 @@ public :
 	void UpdateTriPod();
 
 	UFUNCTION()
-	inline void SetSkillImage(UTexture2D* Image) { SkillImage = Image; }
+	inline void SetSkillName(FString Name) { SkillName = Name; }
 
 	UFUNCTION()
-	inline void SetSkillName(FString Name) { SkillName = Name; }
+	void SetSkillImage(UTexture2D* image) { SkillImage = image; }
+
+	UFUNCTION()
+	void SetSkillImageURL(FString url) { SkillImageURL = url; }
 
 	UFUNCTION()
 	inline void SetSkillSock(FString Sock) { SkillSock = Sock; }
@@ -124,8 +130,6 @@ public :
 	UFUNCTION()
 	inline void SetSkillData(UDataTable* Table) { DataComponent = Table; }
 	
-	
-
 	UFUNCTION()
 	inline void SetTriPodData(UDataTable* Table) { TriPodDataComponent = Table; }
 
@@ -134,9 +138,6 @@ public :
 
 	UFUNCTION()
 	FORCEINLINE void SetTriPodDataNum(int index, int Data) { TriPodInfo[index] = Data; }
-
-	UFUNCTION()
-	inline UTexture2D* GetSkillImage() { return SkillImage; }
 
 	UFUNCTION()
 	inline FString GetSkillName() { return SkillName; }
@@ -152,6 +153,9 @@ public :
 
 	UFUNCTION()
 	inline int GetSkillLevel() { return SkillLevel; }
+
+	UFUNCTION()
+	void SetSkillLevel(int32 level);
 
 	UFUNCTION()
 	FORCEINLINE UEntrySkillWidgetClass* GetThisWidget() { return this; }

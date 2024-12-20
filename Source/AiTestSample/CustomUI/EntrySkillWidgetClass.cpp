@@ -7,6 +7,7 @@
 #include "SkillDataRow.h"
 #include "TriPodWidget.h"
 #include "Kismet/KismetStringLibrary.h"
+#include "ImageUtils.h"
 #include "TriPodDataRow.h"
 #include "SlotBaseClass.h"
 #include "SkillInfoUI_BaseClass.h"
@@ -38,17 +39,17 @@ void UEntrySkillWidgetClass::NativeOnListItemObjectSet(UObject* ListItemObject)
 	IUserObjectListEntry::NativeOnListItemObjectSet(ListItemObject);
 	UEntrySkillWidgetClass* SkillInfoUI = Cast<UEntrySkillWidgetClass>(ListItemObject);
 
-	UIImage->SetBrushFromTexture(SkillInfoUI->SkillImage);
 	SkillUIName->SetText(FText::FromString(SkillInfoUI->SkillName));
 	SkillUISock->SetText(FText::FromString(SkillInfoUI->SkillSock));
+	UIImage->SetBrushFromTexture(SkillInfoUI->SkillImage);
 
 	SkillCaption = SkillInfoUI->SkillCaption;
 	SkillImage = SkillInfoUI->SkillImage;
 	SkillName = SkillInfoUI->SkillName;
+	SkillLevel = SkillInfoUI->SkillLevel;
 	SkillSock = SkillInfoUI->SkillSock;
 	DataComponent = SkillInfoUI->DataComponent;
 	TriPodDataComponent = SkillInfoUI->TriPodDataComponent;
-	BackGroundWidget->SkillImgaeTexture = SkillInfoUI->SkillImage;
 	BackGroundWidget->SetParentWidget(this);
 
 	for(int i = 0; i <3; i++)
@@ -61,6 +62,7 @@ void UEntrySkillWidgetClass::NativeOnListItemObjectSet(UObject* ListItemObject)
 		CurrentWidget->ItemClicked(this);
 	}
 	UpdateTriPod();
+	SettingData();
 }
 
 
@@ -158,6 +160,11 @@ void UEntrySkillWidgetClass::UpdateTriPod()
 	}
 }
 
+void UEntrySkillWidgetClass::SetSkillLevel(int32 level)
+{
+	SkillLevel = level;
+}
+
 void UEntrySkillWidgetClass::SettingData()
 {
 	//데이블 데이터 참조후 설정
@@ -189,7 +196,7 @@ void UEntrySkillWidgetClass::SettingData()
 
 void UEntrySkillWidgetClass::SetWidgetData(UUserWidget* SettingData)
 {
-	USkillInfoUI_BaseClass* SettingWidget = Cast<USkillInfoUI_BaseClass>(SettingData);
+	/*USkillInfoUI_BaseClass* SettingWidget = Cast<USkillInfoUI_BaseClass>(SettingData);
 	FSkillInfoData* Data = DataComponent->FindRow<FSkillInfoData>(FName(FString::FromInt(SkillLevel)), "");
 	FTriPodData* TriData1 = TriPodDataComponent->FindRow<FTriPodData>(FName(FString::FromInt(TriPodInfo[0])), "");
 	FTriPodData* TriData2 = TriPodDataComponent->FindRow<FTriPodData>(FName(FString::FromInt(TriPodInfo[1])), "");
@@ -232,7 +239,7 @@ void UEntrySkillWidgetClass::SetWidgetData(UUserWidget* SettingData)
 		SettingWidget->TriPodInfo.Add(TriData3->TriPodInfo);
 	}
 
-	SettingWidget->SettingData();
+	SettingWidget->SettingData();*/
 }
 
 void UEntrySkillWidgetClass::ViewSkillInfo()

@@ -13,6 +13,10 @@ UCLASS()
 class AITESTSAMPLE_API UMyGameInstance : public UGameInstance
 {
 	GENERATED_BODY()
+
+protected :
+	virtual void Init();
+
 public :
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "DataTable")
 	class UDataTable* ItemDataTable = nullptr;

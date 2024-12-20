@@ -72,11 +72,13 @@ private :
 
 protected :
 	virtual void NativeOnInitialized();
-	virtual void NativeConstruct();
+	
 
 	UPROPERTY(EditAnywhere, Category = "DataTable", meta = (AllowPrivateAccess = "true"))
 	class UDataTable* SkillDataTableComponent = nullptr;
 public :
+	virtual void NativeConstruct();
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Select")
 	class UEntrySkillWidgetClass* clickedItem = nullptr;
 

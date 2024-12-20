@@ -126,6 +126,90 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct FSkillTriPods
+{
+	GENERATED_BODY()
+
+public:
+	FSkillTriPods() {};
+
+	UPROPERTY(VisibleAnywhere)
+	int32 Tier;
+
+	UPROPERTY(VisibleAnywhere)
+	int32 Slot;
+
+	UPROPERTY(VisibleAnywhere)
+	FString Name;
+
+	UPROPERTY(VisibleAnywhere)
+	FString Icon;
+
+	UPROPERTY(VisibleAnywhere)
+	int32 Level;
+
+	UPROPERTY(VisibleAnywhere)
+	bool bIsSelected;
+
+	UPROPERTY(VisibleAnywhere)
+	FString Tooltip;
+};
+
+USTRUCT(BlueprintType)
+struct FSkillRune
+{
+	GENERATED_BODY()
+
+public:
+	FSkillRune() {};
+
+	UPROPERTY(VisibleAnywhere)
+	FString Name;
+
+	UPROPERTY(VisibleAnywhere)
+	FString Icon;
+
+	UPROPERTY(VisibleAnywhere)
+	FString Grade;
+
+	UPROPERTY(VisibleAnywhere)
+	FString Tooltip;
+};
+
+USTRUCT(BlueprintType)
+struct FArmorySkills
+{
+	GENERATED_BODY()
+
+public:
+	FArmorySkills() {};
+
+	UPROPERTY(VisibleAnywhere)
+	FString Name;
+
+	UPROPERTY(VisibleAnywhere)
+	FString Icon;
+
+	UPROPERTY(VisibleAnywhere)
+	int32 Level;
+
+	UPROPERTY(VisibleAnywhere)
+	FString Type;
+
+	UPROPERTY(VisibleAnywhere)
+	int32 SkillType;
+
+	UPROPERTY(VisibleAnywhere)
+	TArray<FSkillTriPods> TriPods;
+
+	UPROPERTY(VisibleAnywhere)
+	FSkillRune Rune;
+
+	UPROPERTY(VisibleAnywhere)
+	FString ToolTip;
+};
+
+USTRUCT(BlueprintType)
 struct FArmoryProfile
 {
 	GENERATED_BODY()
@@ -186,9 +270,4 @@ public:
 
 	UPROPERTY(VisibleAnywhere)
 	FString ItemMaxLevel;
-
-	/*ArmoryProfile operator= (const FArmoryProfile& _armoryprofile)
-	{
-		return _armoryprofile;
-	}*/
 };

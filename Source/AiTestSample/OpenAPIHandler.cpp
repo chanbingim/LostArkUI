@@ -34,6 +34,12 @@ FString OpenAPIHandler::urlEncode(const FString& str)
 	return escaped;
 }
 
+
+void OpenAPIHandler::RequestWebServerFormImageData(FString imageURL, int32 arryIndex)
+{
+	DownloadImage(imageURL, arryIndex);
+}
+
 void OpenAPIHandler::RequestCharacterInfo(FString charactername)
 {
 	FString resultURL = SerachCharacterDomainURL + urlEncode(charactername) + "/siblings";
@@ -66,8 +72,6 @@ void OpenAPIHandler::HttpCall(const FString& InURL, const FString& InVerb, EStru
 	//PATCH : 리소스의 일부를 업데이트할 때 사용한다.
 	Request->SetVerb(InVerb);
 #pragma endregion
-
-
 	//서버가 미리 알수있도록 하는 함수
 	//서버가 어떤종류의 데이터를 받을지 지정하는 함수
 	//header 종류 : https://velog.io/@jkijki12/HTTP-Header-%EC%A0%95%EB%A6%AC
@@ -127,4 +131,50 @@ void OpenAPIHandler::OnResponseReceived(FHttpRequestPtr Request, FHttpResponsePt
 	UE_LOG(LogTemp, Warning, TEXT("Response Code: %s"), *RequestTypeStr);
 
 	ReceivedDataFuncDele.Broadcast(Response, RequestType);
+}
+
+void OpenAPIHandler::DownloadImage(const FString& InURL, int32 arryIndex)
+{
+	TSharedPtr<IHttpRequest> Request = httpModule->CreateRequest();
+	Request->OnProcessRequestComplete().BindRaw(this, &OpenAPIHandler::OnImageDownLoadComplete);
+
+	//HTTP 도메인 주소
+	Request->SetURL(InURL);
+#pragma region Http Method
+	//HTTP 매서드 (Get, POST등)
+	//GET: 리소스를 조회할 때 사용한다.데이터의 변경 없이 서버로부터 데이터를 가져온다.
+	//POST : 서버에 데이터를 제출할 때 사용한다.일반적으로 리소스를 생성할 때 사용된다.
+	//PUT : 서버의 리소스를 업데이트할 때 사용한다.
+	//DELETE : 서버의 리소스를 삭제할 때 사용한다.
+	//PATCH : 리소스의 일부를 업데이트할 때 사용한다.
+	Request->SetVerb("Get");
+#pragma endregion
+
+	//json 파일로 accept 연동
+	Request->SetHeader("accept", TEXT("application/Json"));
+
+	//응답하는 내용의 타입과 문자 포맷을 표현한다.
+	Request->SetHeader("Content-Type", TEXT("application/Json"));
+
+	Request->SetHeader(TEXT("Request-Type"), FString::FromInt(arryIndex));
+
+	//서버에 요청
+	Request->ProcessRequest();
+	UE_LOG(LogTemp, Warning, TEXT("DownloadImage L: %s"), *InURL);
+
+}
+
+void OpenAPIHandler::OnImageDownLoadComplete(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
+{
+	// 요청이 성공했는지, 응답이 유요한지 검사한다.
+	if (!bWasSuccessful || !Response.IsValid())
+	{
+		UE_LOG(LogTemp, Error, TEXT("HTTP request failed. URL: %s"), *Request->GetURL());
+		return;
+	}
+
+	FString RequestTypeStr = Request->GetHeader(TEXT("Request-Type"));
+	int32 arryIndex = FCString::Atoi(*RequestTypeStr);
+
+	ReceiveDwonloadImageDele.Broadcast(Response, arryIndex);
 }
